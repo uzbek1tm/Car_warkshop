@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище Car_warkshopModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="Id_admin" />
+          </Key>
+          <Property Name="Id_admin" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login_admin" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password_admin" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Car_mechanic">
+          <Key>
+            <PropertyRef Name="Id_mechanic" />
+          </Key>
+          <Property Name="Id_mechanic" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname_mechanic" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_mechanic" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Partronymic_mechanic" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Choice_services">
+          <Key>
+            <PropertyRef Name="Id_release" />
+          </Key>
+          <Property Name="Id_release" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_client" Type="int" Nullable="false" />
+          <Property Name="Id_servis" Type="int" Nullable="false" />
+          <Property Name="Date_order" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer_data">
+          <Key>
+            <PropertyRef Name="Id_client" />
+          </Key>
+          <Property Name="Id_client" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname_client" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_client" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Partronymic_client" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mail_client" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone_number_client" Type="char" MaxLength="12" Nullable="false" />
+          <Property Name="Login_client" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password_client" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Servis">
+          <Key>
+            <PropertyRef Name="Id_servis" />
+          </Key>
+          <Property Name="Id_servis" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Servis" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cost_servis" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_mechanic" Type="int" />
+        </EntityType>
+        <Association Name="FK_Id_client">
+          <End Role="Customer_data" Type="Self.Customer_data" Multiplicity="1" />
+          <End Role="Choice_services" Type="Self.Choice_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer_data">
+              <PropertyRef Name="Id_client" />
+            </Principal>
+            <Dependent Role="Choice_services">
+              <PropertyRef Name="Id_client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_mechanic">
+          <End Role="Car_mechanic" Type="Self.Car_mechanic" Multiplicity="0..1" />
+          <End Role="Servis" Type="Self.Servis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car_mechanic">
+              <PropertyRef Name="Id_mechanic" />
+            </Principal>
+            <Dependent Role="Servis">
+              <PropertyRef Name="Id_mechanic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_servis">
+          <End Role="Servis" Type="Self.Servis" Multiplicity="1" />
+          <End Role="Choice_services" Type="Self.Choice_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servis">
+              <PropertyRef Name="Id_servis" />
+            </Principal>
+            <Dependent Role="Choice_services">
+              <PropertyRef Name="Id_servis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Car_warkshopModelContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Car_mechanic" EntityType="Self.Car_mechanic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Choice_services" EntityType="Self.Choice_services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_data" EntityType="Self.Customer_data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servis" EntityType="Self.Servis" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Id_client" Association="Self.FK_Id_client">
+            <End Role="Customer_data" EntitySet="Customer_data" />
+            <End Role="Choice_services" EntitySet="Choice_services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_mechanic" Association="Self.FK_Id_mechanic">
+            <End Role="Car_mechanic" EntitySet="Car_mechanic" />
+            <End Role="Servis" EntitySet="Servis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_servis" Association="Self.FK_Id_servis">
+            <End Role="Servis" EntitySet="Servis" />
+            <End Role="Choice_services" EntitySet="Choice_services" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Car_warkshopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="Id_admin" />
+          </Key>
+          <Property Name="Id_admin" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login_admin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password_admin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Car_mechanic">
+          <Key>
+            <PropertyRef Name="Id_mechanic" />
+          </Key>
+          <Property Name="Id_mechanic" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname_mechanic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name_mechanic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Partronymic_mechanic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Servis" Relationship="Self.FK_Id_mechanic" FromRole="Car_mechanic" ToRole="Servis" />
+        </EntityType>
+        <EntityType Name="Choice_services">
+          <Key>
+            <PropertyRef Name="Id_release" />
+          </Key>
+          <Property Name="Id_release" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_client" Type="Int32" Nullable="false" />
+          <Property Name="Id_servis" Type="Int32" Nullable="false" />
+          <Property Name="Date_order" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Customer_data" Relationship="Self.FK_Id_client" FromRole="Choice_services" ToRole="Customer_data" />
+          <NavigationProperty Name="Servis" Relationship="Self.FK_Id_servis" FromRole="Choice_services" ToRole="Servis" />
+        </EntityType>
+        <EntityType Name="Customer_data">
+          <Key>
+            <PropertyRef Name="Id_client" />
+          </Key>
+          <Property Name="Id_client" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname_client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name_client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Partronymic_client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mail_client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone_number_client" Type="String" MaxLength="12" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Login_client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password_client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Choice_services" Relationship="Self.FK_Id_client" FromRole="Customer_data" ToRole="Choice_services" />
+        </EntityType>
+        <EntityType Name="Servis">
+          <Key>
+            <PropertyRef Name="Id_servis" />
+          </Key>
+          <Property Name="Id_servis" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Servis1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cost_servis" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id_mechanic" Type="Int32" />
+          <NavigationProperty Name="Car_mechanic" Relationship="Self.FK_Id_mechanic" FromRole="Servis" ToRole="Car_mechanic" />
+          <NavigationProperty Name="Choice_services" Relationship="Self.FK_Id_servis" FromRole="Servis" ToRole="Choice_services" />
+        </EntityType>
+        <Association Name="FK_Id_mechanic">
+          <End Role="Car_mechanic" Type="Self.Car_mechanic" Multiplicity="0..1" />
+          <End Role="Servis" Type="Self.Servis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car_mechanic">
+              <PropertyRef Name="Id_mechanic" />
+            </Principal>
+            <Dependent Role="Servis">
+              <PropertyRef Name="Id_mechanic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_client">
+          <End Role="Customer_data" Type="Self.Customer_data" Multiplicity="1" />
+          <End Role="Choice_services" Type="Self.Choice_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer_data">
+              <PropertyRef Name="Id_client" />
+            </Principal>
+            <Dependent Role="Choice_services">
+              <PropertyRef Name="Id_client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_servis">
+          <End Role="Servis" Type="Self.Servis" Multiplicity="1" />
+          <End Role="Choice_services" Type="Self.Choice_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servis">
+              <PropertyRef Name="Id_servis" />
+            </Principal>
+            <Dependent Role="Choice_services">
+              <PropertyRef Name="Id_servis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Car_warkshopEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admins" />
+          <EntitySet Name="Car_mechanic" EntityType="Self.Car_mechanic" />
+          <EntitySet Name="Choice_services" EntityType="Self.Choice_services" />
+          <EntitySet Name="Customer_data" EntityType="Self.Customer_data" />
+          <EntitySet Name="Servis" EntityType="Self.Servis" />
+          <AssociationSet Name="FK_Id_mechanic" Association="Self.FK_Id_mechanic">
+            <End Role="Car_mechanic" EntitySet="Car_mechanic" />
+            <End Role="Servis" EntitySet="Servis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_client" Association="Self.FK_Id_client">
+            <End Role="Customer_data" EntitySet="Customer_data" />
+            <End Role="Choice_services" EntitySet="Choice_services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_servis" Association="Self.FK_Id_servis">
+            <End Role="Servis" EntitySet="Servis" />
+            <End Role="Choice_services" EntitySet="Choice_services" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Car_warkshopModelContainer" CdmEntityContainer="Car_warkshopEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="Car_warkshopModel.Admins">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="Id_admin" ColumnName="Id_admin" />
+                <ScalarProperty Name="Login_admin" ColumnName="Login_admin" />
+                <ScalarProperty Name="Password_admin" ColumnName="Password_admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Car_mechanic">
+            <EntityTypeMapping TypeName="Car_warkshopModel.Car_mechanic">
+              <MappingFragment StoreEntitySet="Car_mechanic">
+                <ScalarProperty Name="Id_mechanic" ColumnName="Id_mechanic" />
+                <ScalarProperty Name="Surname_mechanic" ColumnName="Surname_mechanic" />
+                <ScalarProperty Name="Name_mechanic" ColumnName="Name_mechanic" />
+                <ScalarProperty Name="Partronymic_mechanic" ColumnName="Partronymic_mechanic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Choice_services">
+            <EntityTypeMapping TypeName="Car_warkshopModel.Choice_services">
+              <MappingFragment StoreEntitySet="Choice_services">
+                <ScalarProperty Name="Id_release" ColumnName="Id_release" />
+                <ScalarProperty Name="Id_client" ColumnName="Id_client" />
+                <ScalarProperty Name="Id_servis" ColumnName="Id_servis" />
+                <ScalarProperty Name="Date_order" ColumnName="Date_order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer_data">
+            <EntityTypeMapping TypeName="Car_warkshopModel.Customer_data">
+              <MappingFragment StoreEntitySet="Customer_data">
+                <ScalarProperty Name="Id_client" ColumnName="Id_client" />
+                <ScalarProperty Name="Surname_client" ColumnName="Surname_client" />
+                <ScalarProperty Name="Name_client" ColumnName="Name_client" />
+                <ScalarProperty Name="Partronymic_client" ColumnName="Partronymic_client" />
+                <ScalarProperty Name="Mail_client" ColumnName="Mail_client" />
+                <ScalarProperty Name="Phone_number_client" ColumnName="Phone_number_client" />
+                <ScalarProperty Name="Login_client" ColumnName="Login_client" />
+                <ScalarProperty Name="Password_client" ColumnName="Password_client" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servis">
+            <EntityTypeMapping TypeName="Car_warkshopModel.Servis">
+              <MappingFragment StoreEntitySet="Servis">
+                <ScalarProperty Name="Id_servis" ColumnName="Id_servis" />
+                <ScalarProperty Name="Servis1" ColumnName="Servis" />
+                <ScalarProperty Name="Cost_servis" ColumnName="Cost_servis" />
+                <ScalarProperty Name="Id_mechanic" ColumnName="Id_mechanic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
